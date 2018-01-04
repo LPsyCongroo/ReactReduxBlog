@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { createPost } from '../actions';
 
 class PostsNew extends Component {
   renderField(field) {
@@ -21,8 +24,13 @@ class PostsNew extends Component {
     );
   }
 
+  // this-keyword needs to be binded to refer to the component  
   onSubmit(values) {
-    console.log(values);
+    // call the action creator and pass in the validated form values
+    this.props.createPost(values, () => {
+      // Props to help with navigation that come from react-router Route component
+      this.props.history.push("/");
+    });
   }
 
   render(){
@@ -48,6 +56,7 @@ class PostsNew extends Component {
           component={this.renderField}
         />
         <button className="btn btn-primary" type="submit">Save</button>
+        <Link to="/" className="btn btn-danger">Cancel</Link>
       </form>
     )
   }
@@ -73,4 +82,6 @@ function validate(values) {
 export default reduxForm({
   form: 'PostsNewForm',
   validate
-})(PostsNew);
+})(
+  connect(null, {createPost })(PostsNew)
+);

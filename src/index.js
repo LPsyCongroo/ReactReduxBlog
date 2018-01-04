@@ -8,6 +8,7 @@ import promise from 'redux-promise';
 import reducers from './reducers';
 import PostsIndex from './components/posts_index';
 import PostsNew from './components/posts_new';
+import PostShow from './components/post_show';
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
@@ -17,6 +18,8 @@ ReactDOM.render(
       <div>
         <Switch>
           <Route path="/posts/new" component={PostsNew} />
+          // This is the second Route because :id is a wildcard and will accept anything.
+          <Route path="/posts/:id" component={PostShow}/>
           <Route path="/" component={PostsIndex} />
         </Switch>
       </div>
